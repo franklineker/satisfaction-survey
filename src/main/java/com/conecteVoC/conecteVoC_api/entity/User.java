@@ -5,10 +5,12 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -17,13 +19,13 @@ public class User {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    private String id;
     @Column(name = "username", nullable = false)
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "roles", nullable = false)
-    private List<String> roles;
+    private Set<String> roles;
     @Column(name = "first_name", nullable = false)
     private String firstName;
     @Column(name = "last_name", nullable = false)
@@ -35,7 +37,7 @@ public class User {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime udatedAt;
+    private LocalDateTime updatedAt;
 
 
 }
