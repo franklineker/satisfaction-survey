@@ -1,5 +1,7 @@
 package com.conecteVoC.conecteVoC_api.dto.user;
 
+import com.conecteVoC.conecteVoC_api.dto.role.RoleResponseDTO;
+import com.conecteVoC.conecteVoC_api.entity.Role;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +20,7 @@ public class UserResponseDTO {
 
     private String id;
     private String username;
-    private Set<String> roles;
+    private Set<RoleResponseDTO> roles;
     private String firstName;
     private String lastName;
     private String taxNumber;

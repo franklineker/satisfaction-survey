@@ -19,6 +19,7 @@ spring:
     properties:
       hibernate:
         jdbc.lob.non_contextual_creation: true
+        id.new_generator_mappings: true
 
 #config:
 #  uris:

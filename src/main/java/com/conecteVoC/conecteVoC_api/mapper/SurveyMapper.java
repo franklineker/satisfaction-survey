@@ -41,7 +41,7 @@ public class SurveyMapper {
 
     public static SurveyResponseDTO toSurveyResponseDTO(Survey survey){
         return survey != null ? SurveyResponseDTO.builder()
-                .id(survey.getId())
+                .id(survey.getId().toString())
                 .title(survey.getTitle())
                 .description(survey.getDescription())
                 .surveyType(survey.getSurveyType())

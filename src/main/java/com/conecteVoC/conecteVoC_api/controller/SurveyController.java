@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value = "/surveys")
 public class SurveyController {
 
-    @Autowired
-    private SurveyService surveyService;
+    private final SurveyService surveyService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SurveyResponseDTO> createSurvey(@RequestBody @Valid SurveyCreateDTO dto) {

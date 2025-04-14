@@ -9,11 +9,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@AllArgsConstructor
 @Service
 public class SurveyService {
 
-    @Autowired
-    private SurveyRepository surveyRepository;
+    private final SurveyRepository surveyRepository;
 
     public SurveyResponseDTO create(SurveyCreateDTO dto) {
         Survey survey = SurveyMapper.fromSurveyCreateDTO(dto);

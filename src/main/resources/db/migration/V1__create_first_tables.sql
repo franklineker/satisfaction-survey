@@ -2,19 +2,35 @@ CREATE TABLE app_user (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR(255) NOT NULL,
     password VARCHAR(512) NOT NULL,
-    roles TEXT[] NOT NULL DEFAULT ARRAY['USER']::TEXT[],
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     tax_number VARCHAR(14) NOT NULL,
     phone_number VARCHAR(25),
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     expired BOOLEAN DEFAULT FALSE,
     locked BOOLEAN DEFAULT FALSE,
     credentials_expired BOOLEAN DEFAULT FALSE,
     disabled BOOLEAN DEFAULT FALSE,
     CONSTRAINT unique_username UNIQUE (username),
     CONSTRAINT unique_tax_number UNIQUE (tax_number)
+);
+
+CREATE TABLE role (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name VARCHAR(20) NOT NULL CHECK (name IN ('ADMIN', 'USER'))
+);
+
+INSERT INTO role (name) VALUES
+    ('ADMIN'),
+    ('USER');
+
+CREATE TABLE app_user_role (
+    user_id UUID REFERENCES app_user(id) ON DELETE CASCADE,
+    role_id UUID REFERENCES role(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT pk_app_user_role PRIMARY KEY(user_id, role_id)
 );
 
 CREATE TABLE survey (
