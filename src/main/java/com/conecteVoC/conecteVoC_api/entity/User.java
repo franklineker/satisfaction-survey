@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Data
+@ToString(exclude = {"roles"})
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,26 +19,26 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id")
     private UUID id;
-    @Column(name = "username", nullable = false)
+    @Column(name = "username")
     private String username;
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "app_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String firstName;
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     private String lastName;
-    @Column(name = "tax_number", nullable = false)
+    @Column(name = "tax_number")
     private String taxNumber;
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "created_at")
     private LocalDateTime createdAt;

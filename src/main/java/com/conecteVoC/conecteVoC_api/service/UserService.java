@@ -1,6 +1,6 @@
 package com.conecteVoC.conecteVoC_api.service;
 
-import com.conecteVoC.conecteVoC_api.dto.user.UserCreateDTO;
+import com.conecteVoC.conecteVoC_api.dto.user.UserRequestDTO;
 import com.conecteVoC.conecteVoC_api.dto.user.UserResponseDTO;
 import com.conecteVoC.conecteVoC_api.entity.Role;
 import com.conecteVoC.conecteVoC_api.entity.User;
@@ -24,7 +24,7 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserResponseDTO create(UserCreateDTO dto) {
+    public UserResponseDTO create(UserRequestDTO dto) {
         Set<String> rolesDTO = dto.getRoles().stream()
                 .map(code -> UserRole.ofCode(code).getDescription())
                 .collect(Collectors.toSet());

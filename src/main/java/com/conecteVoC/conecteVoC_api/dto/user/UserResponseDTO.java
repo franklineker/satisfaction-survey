@@ -1,15 +1,12 @@
 package com.conecteVoC.conecteVoC_api.dto.user;
 
 import com.conecteVoC.conecteVoC_api.dto.role.RoleResponseDTO;
-import com.conecteVoC.conecteVoC_api.entity.Role;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Data

@@ -1,13 +1,11 @@
 package com.conecteVoC.conecteVoC_api.mapper;
 
 import com.conecteVoC.conecteVoC_api.dto.role.RoleResponseDTO;
-import com.conecteVoC.conecteVoC_api.dto.user.UserCreateDTO;
+import com.conecteVoC.conecteVoC_api.dto.user.UserRequestDTO;
 import com.conecteVoC.conecteVoC_api.dto.user.UserResponseDTO;
-import com.conecteVoC.conecteVoC_api.dto.user.UserUpdateDTO;
 import com.conecteVoC.conecteVoC_api.entity.Role;
 import com.conecteVoC.conecteVoC_api.entity.User;
 import com.conecteVoC.conecteVoC_api.enums.UserRole;
-import com.conecteVoC.conecteVoC_api.repository.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -17,22 +15,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserMapper {
 
-    public static User fromUserCreateDTO(UserCreateDTO dto, Set<Role> roles, PasswordEncoder passwordEncoder) {
+    public static User fromUserCreateDTO(UserRequestDTO dto, Set<Role> roles, PasswordEncoder passwordEncoder) {
         return dto != null ? User.builder()
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
-                .roles(roles)
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
-                .taxNumber(dto.getTaxNumber())
-                .phoneNumber(dto.getPhoneNumber())
-                .build() : null;
-    }
-
-    public static User fromUserUpdateDTO(UserUpdateDTO dto, Set<Role> roles) {
-        return dto != null ? User.builder()
-                .username(dto.getUsername())
-                .password(dto.getPassword())
                 .roles(roles)
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())

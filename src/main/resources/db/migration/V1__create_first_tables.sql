@@ -38,31 +38,25 @@ CREATE TABLE survey (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     status VARCHAR(20) NOT NULL CHECK (status IN ('DRAFT', 'ACTIVE', 'CLOSED')),
-    start_date TIMESTAMP,
-    end_date TIMESTAMP,
-    is_anonymous BOOLEAN DEFAULT TRUE,
-    survey_type VARCHAR(50),
+    is_anonymous BOOLEAN DEFAULT FALSE,
+    survey_type VARCHAR(50), -- customers can choose whatever they want.
     max_responses INTEGER,
     creator_id UUID NOT NULL REFERENCES app_user(id),
-    sent_at TIMESTAMP WITH TIME ZONE,
-    responded_at TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE question (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    survey_id UUID NOT NULL REFERENCES survey(id),
+    survey_id UUID NOT NULL REFERENCES survey(id) ON DELETE CASCADE,
     text VARCHAR(1024) NOT NULL,
-    question_type VARCHAR(50) NOT NULL CHECK (question_type IN (
+    type VARCHAR(50) NOT NULL CHECK (type IN (
         'SINGLE_CHOICE', 'MULTIPLE_CHOICE', 'YES_NO', 'RATING_SCALE', 'OPEN_TEXT'
     )),
     is_required BOOLEAN DEFAULT FALSE,
     display_order INTEGER,
     scale_min INTEGER,
     scale_max INTEGER,
-    sent_at TIMESTAMP WITH TIME ZONE,
-    responded_at TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -82,6 +76,18 @@ CREATE TABLE response (
     question_id UUID NOT NULL REFERENCES question(id),
     recipient_id UUID NOT NULL REFERENCES recipient(id),
     answer TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE campaign (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    survey_id UUID NOT NULL REFERENCES survey(id),
+    recipient_id UUID NOT NULL REFERENCES recipient(id),
+    attempt INTEGER NOT NULL DEFAULT 1, -- number of sending attempts
+    sent_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    responded_at TIMESTAMP WITH TIME ZONE,
+    status VARCHAR(20) NOT NULL DEFAULT 'SENT' CHECK (status IN ('SENT', 'RESPONDED', 'FAILED', 'CANCELED')),
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

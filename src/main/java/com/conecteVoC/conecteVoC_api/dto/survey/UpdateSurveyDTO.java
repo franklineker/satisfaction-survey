@@ -1,29 +1,25 @@
 package com.conecteVoC.conecteVoC_api.dto.survey;
 
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotNull;
+import com.conecteVoC.conecteVoC_api.dto.question.UpdateQuestionDTO;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SurveyCreateDTO {
+public class UpdateSurveyDTO {
 
-    @NotNull
     private String title;
-    @NotNull
     private String description;
     private String status;
     private String surveyType;
-    private int maxResponses;
+    private Integer maxResponses;
     private boolean isAnonymous;
-    private String sentAt;
-    private String respondedAt;
-    private String creatorId;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private List<UpdateQuestionDTO> questions;
 }
