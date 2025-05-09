@@ -1,7 +1,6 @@
 package com.conecteVoC.conecteVoC_api.dto.question;
 
 import com.conecteVoC.conecteVoC_api.enums.QuestionType;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

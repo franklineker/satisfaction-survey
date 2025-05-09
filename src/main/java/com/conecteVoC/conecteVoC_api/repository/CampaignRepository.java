@@ -1,6 +1,6 @@
 package com.conecteVoC.conecteVoC_api.repository;
 
-import com.conecteVoC.conecteVoC_api.entity.Survey;
+import com.conecteVoC.conecteVoC_api.entity.Campaign;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface SurveyRepository extends JpaRepository<Survey, UUID> {
+public interface CampaignRepository extends JpaRepository<Campaign, UUID> {
 
-    @EntityGraph(attributePaths = "questions")
-    Page<Survey> findAll(Pageable pageable);
+    @EntityGraph(value = "survey.questions")
+    Page<Campaign> findAll(Pageable pageable);
 
 }

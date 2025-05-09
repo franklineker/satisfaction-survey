@@ -7,9 +7,7 @@ import com.conecteVoC.conecteVoC_api.entity.Question;
 import com.conecteVoC.conecteVoC_api.entity.Survey;
 import com.conecteVoC.conecteVoC_api.enums.QuestionType;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -71,14 +69,15 @@ public class QuestionMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<QuestionResponseDTO> mapToQuestionResponseDTOList(List<Question> questions){
+    public static Set<QuestionResponseDTO> mapToQuestionResponseDTOSet(Set<Question> questions){
+        System.out.println(questions);
         if (questions == null) {
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
 
-        return questions.stream()
+        return new HashSet<>(questions).stream()
                 .map(QuestionMapper::toQuestionResponseDTO)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
 

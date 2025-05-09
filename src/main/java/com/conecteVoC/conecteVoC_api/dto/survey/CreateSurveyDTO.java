@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -24,5 +23,5 @@ public class CreateSurveyDTO {
     private boolean isAnonymous;
     private String creatorId;
 
-    private List<CreateQuestionDTO> questions;
+    private Set<CreateQuestionDTO> questions;
 }

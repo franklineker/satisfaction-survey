@@ -19,8 +19,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -36,7 +36,7 @@ public class SurveyService {
         Survey survey = SurveyMapper.fromCreateSurveyDTO(dto, userRepository);
         survey = surveyRepository.save(survey);
 
-        List<Question> questions = new ArrayList<>();
+        Set<Question> questions = new HashSet<>();
 
         for(CreateQuestionDTO questionDTO : dto.getQuestions()) {
             Question question = QuestionMapper.toQuestion(questionDTO, survey);
@@ -49,6 +49,7 @@ public class SurveyService {
         return SurveyMapper.toSurveyResponseDTO(survey);
     }
 
+    @Transactional
     public SurveyResponseDTO getById(String id) {
         Survey survey = surveyRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new RuntimeException(String.format("Survey with id: <%s> not found.",id)));
@@ -58,11 +59,13 @@ public class SurveyService {
         return responseDTO;
     }
 
-    public Page<SurveyResponseDTO> getSurveys(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.desc("createdAt")));
+    @Transactional
+    public Page<SurveyResponseDTO> findSurveys(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(Sort.Order.desc("createdAt")));
         Page<Survey> surveysPage = surveyRepository.findAll(pageable);
+        System.out.println(String.format("surveyPage::%s", surveysPage.getContent()));
 
-        if (page >= surveysPage.getTotalPages() && surveysPage.getTotalPages() > 0) {
+        if (pageNumber >= surveysPage.getTotalPages() && surveysPage.getTotalPages() > 0) {
             return Page.empty(pageable);
         }
 

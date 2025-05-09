@@ -1,6 +1,5 @@
 package com.conecteVoC.conecteVoC_api.dto.question;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

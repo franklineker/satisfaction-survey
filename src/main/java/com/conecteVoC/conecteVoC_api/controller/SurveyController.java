@@ -34,8 +34,8 @@ public class SurveyController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<SurveyResponseDTO>> findAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        Page<SurveyResponseDTO> responseDTOS = surveyService.getSurveys(page, size);
+    public ResponseEntity<Page<SurveyResponseDTO>> findAll(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "10") int pageSize) {
+        Page<SurveyResponseDTO> responseDTOS = surveyService.findSurveys(pageNumber, pageSize);
 
         return ResponseEntity.ok(responseDTOS);
     }
@@ -45,9 +45,9 @@ public class SurveyController {
         System.out.println(dto);
         System.out.println(String.format("Survey id: %s", id));
 
-        SurveyResponseDTO responseDTO = surveyService.updateSurvey(id, dto);
+        SurveyResponseDTO responseDTOS = surveyService.updateSurvey(id, dto);
 
-        return ResponseEntity.ok(responseDTO);
+        return ResponseEntity.ok(responseDTOS);
     }
 
 }

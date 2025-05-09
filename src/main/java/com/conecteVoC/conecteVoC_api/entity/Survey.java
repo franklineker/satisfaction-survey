@@ -4,11 +4,11 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @ToString(exclude = {"creator", "questions"})
 @Builder
 @AllArgsConstructor
@@ -30,8 +30,6 @@ public class Survey {
     private String status;
     @Column(name = "survey_type")
     private String surveyType;
-    @Column(name = "max_responses")
-    private int maxResponses;
     @Column(name = "is_anonymous")
     private boolean isAnonymous;
     @OneToOne
@@ -42,8 +40,8 @@ public class Survey {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Question> questions = new ArrayList<>();
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Question> questions;
 
     @PrePersist
     protected void onCreate() {

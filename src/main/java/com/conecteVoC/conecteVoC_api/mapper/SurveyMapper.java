@@ -11,7 +11,7 @@ import com.conecteVoC.conecteVoC_api.repository.QuestionRepository;
 import com.conecteVoC.conecteVoC_api.repository.UserRepository;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,12 +28,12 @@ public class SurveyMapper {
                 .surveyType(dto.getSurveyType())
                 .status(dto.getStatus())
                 .isAnonymous(dto.isAnonymous())
-                .maxResponses(dto.getMaxResponses())
                 .creator(creator)
                 .build() : null;
     }
 
     public static SurveyResponseDTO toSurveyResponseDTO(Survey survey){
+        System.out.println(String.format("Survey questions::%s", survey.getQuestions()));
         return survey != null ? SurveyResponseDTO.builder()
                 .id(survey.getId().toString())
                 .title(survey.getTitle())
@@ -41,20 +41,19 @@ public class SurveyMapper {
                 .surveyType(survey.getSurveyType())
                 .status(survey.getStatus())
                 .isAnonymous(survey.isAnonymous())
-                .maxResponses(survey.getMaxResponses())
                 .creatorId(survey.getCreator().getId().toString())
-                .questions(QuestionMapper.mapToQuestionResponseDTOList(survey.getQuestions()))
+                .questions(QuestionMapper.mapToQuestionResponseDTOSet(survey.getQuestions()))
                 .updatedAt(survey.getUpdatedAt())
                 .createdAt(survey.getCreatedAt())
                 .build() : null;
     }
 
-    public static List<SurveyResponseDTO> mapToSurveyResponseDTOList(List<Survey> surveys) {
+    public static Set<SurveyResponseDTO> mapToSurveyResponseDTOSet(Set<Survey> surveys) {
         if (surveys == null)  Collections.emptyList();
 
         return surveys.stream()
                 .map(SurveyMapper::toSurveyResponseDTO)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     public static Survey fromUpdateSurveyDTO (UpdateSurveyDTO dto, Survey survey, QuestionRepository questionRepository){
@@ -62,7 +61,6 @@ public class SurveyMapper {
         if (dto.getDescription() != null) survey.setDescription(dto.getDescription());
         if (dto.getStatus() != null) survey.setStatus(dto.getStatus());
         if (dto.getSurveyType() != null) survey.setSurveyType(dto.getSurveyType());
-        if (dto.getMaxResponses() != null) survey.setMaxResponses(dto.getMaxResponses());
         survey.setAnonymous(dto.isAnonymous());
         if (dto.getQuestions() != null) {
             for(UpdateQuestionDTO updateQuestionDTO : dto.getQuestions()){

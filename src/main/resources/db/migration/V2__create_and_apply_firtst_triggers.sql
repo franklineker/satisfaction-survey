@@ -31,9 +31,9 @@ BEFORE UPDATE ON question
 FOR EACH ROW
 EXECUTE FUNCTION set_timestamp();
 
--- recipient
-CREATE OR REPLACE TRIGGER set_updated_at_recipient
-BEFORE UPDATE ON recipient
+-- contact
+CREATE OR REPLACE TRIGGER set_updated_at_contact
+BEFORE UPDATE ON contact
 FOR EACH ROW
 EXECUTE FUNCTION set_timestamp();
 

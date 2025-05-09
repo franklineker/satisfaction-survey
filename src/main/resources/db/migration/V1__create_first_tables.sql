@@ -35,12 +35,11 @@ CREATE TABLE app_user_role (
 
 CREATE TABLE survey (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL UNIQUE,
     description TEXT,
     status VARCHAR(20) NOT NULL CHECK (status IN ('DRAFT', 'ACTIVE', 'CLOSED')),
     is_anonymous BOOLEAN DEFAULT FALSE,
     survey_type VARCHAR(50), -- customers can choose whatever they want.
-    max_responses INTEGER,
     creator_id UUID NOT NULL REFERENCES app_user(id),
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -61,20 +60,26 @@ CREATE TABLE question (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE recipient (
+CREATE TABLE contact (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    survey_id UUID NOT NULL REFERENCES survey(id),
-    name VARCHAR(255),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255),
+    tax_number VARCHAR(14),
     phone_number VARCHAR(25) NOT NULL,
+    deleted BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP WITH TIME ZONE,
+    deleted_by UUID REFERENCES app_user(id),
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE response (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    campaign_id UUID NOT NULL REFERENCES contact(id),
     survey_id UUID NOT NULL REFERENCES survey(id),
     question_id UUID NOT NULL REFERENCES question(id),
-    recipient_id UUID NOT NULL REFERENCES recipient(id),
+    contact_id UUID NOT NULL REFERENCES contact(id),
     answer TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -82,14 +87,21 @@ CREATE TABLE response (
 
 CREATE TABLE campaign (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title VARCHAR(255) NOT NULL UNIQUE,
     survey_id UUID NOT NULL REFERENCES survey(id),
-    recipient_id UUID NOT NULL REFERENCES recipient(id),
-    attempt INTEGER NOT NULL DEFAULT 1, -- number of sending attempts
-    sent_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    attempts INTEGER NOT NULL DEFAULT 1, -- number of sending attempts
+    max_responses INTEGER,
+    sent_at TIMESTAMP WITH TIME ZONE,
     responded_at TIMESTAMP WITH TIME ZONE,
-    status VARCHAR(20) NOT NULL DEFAULT 'SENT' CHECK (status IN ('SENT', 'RESPONDED', 'FAILED', 'CANCELED')),
+    status VARCHAR(20) NOT NULL DEFAULT 'CREATED' CHECK (status IN ('CREATED', 'SENT', 'RESPONDED', 'FAILED', 'CANCELED')),
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE campaign_contact (
+    campaign_id UUID NOT NULL REFERENCES campaign(id) ON DELETE CASCADE,
+    contact_id UUID NOT NULL REFERENCES contact(id) ON DELETE CASCADE,
+    PRIMARY KEY (campaign_id, contact_id)
 );
 
 CREATE TABLE oauth2_client (
