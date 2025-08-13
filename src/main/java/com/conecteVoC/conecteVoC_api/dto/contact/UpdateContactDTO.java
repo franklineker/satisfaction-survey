@@ -1,6 +1,5 @@
 package com.conecteVoC.conecteVoC_api.dto.contact;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

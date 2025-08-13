@@ -1,6 +1,5 @@
 package com.conecteVoC.conecteVoC_api.controller;
 
-import com.conecteVoC.conecteVoC_api.dto.campaign.CampaignResponseDTO;
 import com.conecteVoC.conecteVoC_api.dto.contact.ContactResponseDTO;
 import com.conecteVoC.conecteVoC_api.dto.contact.CreateContactDTO;
 import com.conecteVoC.conecteVoC_api.dto.contact.UpdateContactDTO;
@@ -11,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
 import java.util.UUID;
 
 @AllArgsConstructor

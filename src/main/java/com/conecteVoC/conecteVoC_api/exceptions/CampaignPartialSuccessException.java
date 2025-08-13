@@ -1,6 +1,5 @@
 package com.conecteVoC.conecteVoC_api.exceptions;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Set;
