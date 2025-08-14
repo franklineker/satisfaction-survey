@@ -23,7 +23,7 @@ spring:
               authorization-uri: ${AUTHORIZATION_URI}
   datasource:
     platform: postgres
-    url: ${DB_URL}
+    url: ${DATASOURCE_URL}
     username: ${DB_USERNAME}
     password: ${DB_PWD}
     driver-class-name: org.postgresql.Driver
