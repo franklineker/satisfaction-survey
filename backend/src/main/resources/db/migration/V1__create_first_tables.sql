@@ -1,7 +1,8 @@
 CREATE TABLE app_user (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR(255) NOT NULL,
-    password VARCHAR(512) NOT NULL,
+    password VARCHAR(512),
+    roles TEXT[] DEFAULT ARRAY['USER'],
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     tax_number VARCHAR(14) NOT NULL,
