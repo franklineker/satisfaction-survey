@@ -3,10 +3,6 @@ CREATE TABLE app_user (
     username VARCHAR(255) NOT NULL,
     password VARCHAR(512),
     roles TEXT[] DEFAULT ARRAY['USER'],
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    tax_number VARCHAR(14) NOT NULL,
-    phone_number VARCHAR(25),
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     expired BOOLEAN DEFAULT FALSE,
@@ -14,6 +10,15 @@ CREATE TABLE app_user (
     credentials_expired BOOLEAN DEFAULT FALSE,
     disabled BOOLEAN DEFAULT FALSE,
     CONSTRAINT unique_username UNIQUE (username),
+    CONSTRAINT unique_tax_number UNIQUE (tax_number)
+);
+
+CREATE TABLE person (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    tax_number VARCHAR(14),
+    phone_number VARCHAR(25),
     CONSTRAINT unique_tax_number UNIQUE (tax_number)
 );
 
