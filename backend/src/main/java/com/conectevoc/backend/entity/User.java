@@ -23,21 +23,6 @@ public class User {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "password", length = 512)
-    private String password;
-
-    @Column(name = "expired")
-    private Boolean expired;
-
-    @Column(name = "locked")
-    private Boolean locked;
-
-    @Column(name = "credentials_expired")
-    private Boolean credentialsExpired;
-
-    @Column(name = "disabled")
-    private Boolean disabled;
-
     @Column(name = "client_id", nullable = false)
     private UUID clientId;
 
